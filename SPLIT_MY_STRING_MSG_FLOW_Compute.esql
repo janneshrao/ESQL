@@ -7,8 +7,8 @@ CREATE COMPUTE MODULE SPLIT_MY_STRING_MSG_FLOW_Compute
 		DECLARE LEN INTEGER LENGTH(STR);
 	
 		DECLARE I INTEGER 1;
-		
-		CREATE FIELD OutputRoot.JSON.Data.Strings.array IDENTITY (JSON.Array)array;
+		DECLARE K INTEGER 1;
+		CREATE FIELD OutputRoot.JSON.Data.Strings IDENTITY (JSON.Array)Strings;
 		X : LOOP
 			IF POSITION('|' IN STR) = 0 THEN
 				LEAVE X;
@@ -19,13 +19,14 @@ CREATE COMPUTE MODULE SPLIT_MY_STRING_MSG_FLOW_Compute
 			SET I = POS+1;
 			SET STR = SUBSTRING(STR FROM I);
 			IF DATA <> '' THEN
-				CREATE FIELD OutputRoot.JSON.Data.Strings.array TYPE NameValue NAME 'Element' VALUE DATA;
+				SET OutputRoot.JSON.Data.Strings.Item.Element[K] =  DATA;
 			SET DATA = '';		
+			SET K = K+1;
 			END IF;
 		END LOOP;
 		
 		IF STR <> '' THEN
-			CREATE FIELD OutputRoot.JSON.Data.Strings.array TYPE NameValue NAME 'Element' VALUE STR;
+			SET OutputRoot.JSON.Data.Strings.Item.Element[K] = STR;
 		END IF;
 	END;
 END MODULE;
