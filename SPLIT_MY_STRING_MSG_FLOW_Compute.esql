@@ -1,4 +1,17 @@
 
+----In this task, we get string like this '1055|Jannesh|TSE|Hyderabad' and we need to convert that string into JSON Array like this 
+----{
+--    "Strings": [
+--        {
+--            "Element": "1055",
+--            "Element": "Jannesh",
+--            "Element": "TSE",
+--            "Element": "Hyderabad"
+--        }
+--    ]
+--} 
+
+
 
 CREATE COMPUTE MODULE SPLIT_MY_STRING_MSG_FLOW_Compute
 	CREATE FUNCTION Main() RETURNS BOOLEAN
